@@ -113,7 +113,7 @@
 
                 <div class="grid md:grid-cols-3 gap-10">
                     <!-- Article 1 -->
-                    <article class="group cursor-pointer transition-transform hover:-translate-y-2">
+                    <article class="group cursor-pointer transition-transform hover:-translate-y-2" onclick="openModal(1)">
                         <div class="relative h-64 rounded-3xl overflow-hidden mb-6">
                             <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800" alt="Saúde Íntima" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             <div class="absolute top-4 left-4">
@@ -131,7 +131,7 @@
                     </article>
 
                     <!-- Article 2 -->
-                    <article class="group cursor-pointer transition-transform hover:-translate-y-2">
+                    <article class="group cursor-pointer transition-transform hover:-translate-y-2" onclick="openModal(2)">
                         <div class="relative h-64 rounded-3xl overflow-hidden mb-6">
                             <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=80&w=800" alt="Nutrição" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             <div class="absolute top-4 left-4">
@@ -149,7 +149,7 @@
                     </article>
 
                     <!-- Article 3 -->
-                    <article class="group cursor-pointer transition-transform hover:-translate-y-2">
+                    <article class="group cursor-pointer transition-transform hover:-translate-y-2" onclick="openModal(3)">
                         <div class="relative h-64 rounded-3xl overflow-hidden mb-6">
                             <img src="https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=800" alt="Prevenção" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             <div class="absolute top-4 left-4">
@@ -165,6 +165,36 @@
                         <p class="text-slate-600 mb-4 line-clamp-2">Não é apenas um suco gostoso. A ciência por trás das proantocianidinas e como elas impedem a adesão de bactérias.</p>
                         <span class="inline-flex items-center gap-2 text-brand-primary font-bold group-hover:gap-3 transition-all">Continuar lendo <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
                     </article>
+                </div>
+            </div>
+
+            <!-- Article Modal -->
+            <div id="article-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+                <div class="bg-white w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[2.5rem] shadow-2xl relative">
+                    <button onclick="closeModal()" class="absolute top-6 right-6 w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center hover:bg-brand-primary hover:text-white transition-all z-10">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                    
+                    <div class="h-64 sm:h-80 w-full relative">
+                        <img id="modal-image" src="" alt="" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+                    </div>
+
+                    <div class="p-8 sm:p-12 -mt-12 relative bg-white rounded-t-[2.5rem]">
+                        <div class="flex items-center gap-3 text-slate-400 text-sm mb-4">
+                            <span id="modal-category" class="text-brand-primary font-bold uppercase tracking-wider"></span>
+                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                            <span id="modal-date"></span>
+                        </div>
+                        <h2 id="modal-title" class="text-3xl sm:text-4xl font-bold text-slate-900 mb-6 leading-tight"></h2>
+                        <div id="modal-content" class="text-slate-600 leading-relaxed text-lg space-y-4"></div>
+                        
+                        <div class="mt-10 pt-8 border-t border-slate-100">
+                            <a href="#produto" onclick="closeModal()" class="inline-flex items-center gap-2 bg-brand-primary text-white px-8 py-4 rounded-full font-bold hover:shadow-lg hover:shadow-purple-500/30 transition-all">
+                                Conhecer o Candiliv <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -434,7 +464,7 @@
                         </div>
                         <span class="text-xl font-bold text-slate-900">CANDILIV BLOG</span>
                     </div>
-                    <p class="text-slate-500 max-w-sm mb-8">Informação, ciência e natureza unidas para o seu bem-estar.</p>
+                    <p class="text-slate-500 max-sm mb-8">Informação, ciência e natureza unidas para o seu bem-estar.</p>
                     <div class="flex gap-4">
                         <a href="#" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center hover:bg-brand-primary hover:text-white transition-all"><i data-lucide="instagram" class="w-5 h-5"></i></a>
                         <a href="#" class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center hover:bg-brand-primary hover:text-white transition-all"><i data-lucide="facebook" class="w-5 h-5"></i></a>
@@ -469,6 +499,129 @@
     <script>
         // Initialize Lucide icons
         lucide.createIcons();
+
+        // Blog Posts Data
+        const BLOG_POSTS = [
+            {
+                id: 1,
+                title: "O Equilíbrio da Flora Íntima: Por que é tão importante?",
+                content: `
+                    <p>A flora íntima feminina é formada por bactérias “boas” que protegem a região contra infecções, odores e desconfortos. O grande segredo está no equilíbrio.</p>
+                    <p>O pH vaginal, por exemplo, precisa estar levemente ácido para impedir a proliferação de bactérias nocivas. Quando esse equilíbrio é afetado, podem surgir sintomas como:</p>
+                    <ul class="list-disc pl-5 space-y-2 my-4 text-slate-600">
+                        <li>Coceira</li>
+                        <li>Ardência</li>
+                        <li>Corrimento</li>
+                        <li>Odor desagradável</li>
+                    </ul>
+                    <p>E o mais perigoso: muitas mulheres normalizam esses sinais.</p>
+                    <p class="font-bold mt-4 text-slate-900">Fatores comuns que afetam esse equilíbrio:</p>
+                    <ul class="list-disc pl-5 space-y-2 my-4 text-slate-600">
+                        <li>Estresse</li>
+                        <li>Alimentação ruim</li>
+                        <li>Uso de antibióticos</li>
+                        <li>Alterações hormonais (principalmente menopausa)</li>
+                    </ul>
+                    <p class="mt-4">👉 Aqui entra o ponto chave: não é só tratar o sintoma… é restaurar o equilíbrio interno.</p>
+                `,
+                image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800",
+                category: "Saúde Íntima",
+                date: "15 Mar, 2024"
+            },
+            {
+                id: 2,
+                title: "Alimentação e Ciclo Feminino: O que comer em cada fase?",
+                content: `
+                    <p>O ciclo feminino influencia diretamente energia, humor e até desejos alimentares. Ajustar a alimentação pode transformar completamente como você se sente.</p>
+                    
+                    <div class="space-y-4 my-6">
+                        <div>
+                            <p class="font-bold text-slate-900">🩸 Fase menstrual</p>
+                            <p>O corpo precisa de reposição: Ferro (folhas verdes, feijão), Alimentos leves</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-slate-900">🌱 Fase folicular</p>
+                            <p>Energia subindo: Proteínas, Vegetais, Grãos integrais</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-slate-900">🔥 Ovulação</p>
+                            <p>Pico de energia: Alimentos antioxidantes, Frutas, legumes</p>
+                        </div>
+                        <div>
+                            <p class="font-bold text-slate-900">🌙 Fase lútea</p>
+                            <p>Mais sensibilidade: Magnésio (cacau, banana), Evitar açúcar excessivo</p>
+                        </div>
+                    </div>
+
+                    <p class="font-bold mt-4 text-slate-900">⚠️ Conexão emocional</p>
+                    <p>Se você sente cansaço extremo, irritação ou compulsão, pode não ser falta de controle… pode ser falta de estratégia.</p>
+                    <p>Ajustes simples na rotina podem aliviar sintomas que muitas mulheres acham que são “normais”.</p>
+                    <p class="mt-4">👉 Veja o método natural que está ajudando mulheres a equilibrar o corpo sem complicação</p>
+                `,
+                image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=80&w=800",
+                category: "Nutrição",
+                date: "12 Mar, 2024"
+            },
+            {
+                id: 3,
+                title: "O Poder do Cranberry na Prevenção Urinária",
+                content: `
+                    <p>O cranberry é rico em compostos chamados proantocianidinas, que ajudam a impedir que bactérias se fixem no trato urinário.</p>
+                    <p class="font-bold mt-4 text-slate-900">Isso significa:</p>
+                    <ul class="list-disc pl-5 space-y-2 my-4 text-slate-600">
+                        <li>Menor risco de infecções urinárias</li>
+                        <li>Mais proteção natural</li>
+                        <li>Menos desconforto no dia a dia</li>
+                    </ul>
+                    <p class="font-bold mt-4 text-slate-900">Mas aqui vai um ponto importante:</p>
+                    <p>❗ Nem todo cranberry funciona da mesma forma.</p>
+                    <p class="mt-2">Sucos industrializados, por exemplo, geralmente têm:</p>
+                    <ul class="list-disc pl-5 space-y-2 my-4 text-slate-600">
+                        <li>Muito açúcar</li>
+                        <li>Pouco ativo real</li>
+                    </ul>
+                    <p>Muitas mulheres consomem cranberry e não veem resultado… justamente por consumir da forma errada.</p>
+                    <p>Existe uma forma concentrada e mais eficaz de usar esse ativo no dia a dia.</p>
+                    <p class="mt-4">👉 Descubra como fortalecer sua saúde íntima com um método simples e natural</p>
+                `,
+                image: "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=800",
+                category: "Prevenção",
+                date: "10 Mar, 2024"
+            }
+        ];
+
+        // Modal Elements
+        const modal = document.getElementById('article-modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalCategory = document.getElementById('modal-category');
+        const modalDate = document.getElementById('modal-date');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal(postId) {
+            const post = BLOG_POSTS.find(p => p.id === postId);
+            if (!post) return;
+
+            modalImage.src = post.image;
+            modalCategory.textContent = post.category;
+            modalDate.textContent = post.date;
+            modalTitle.textContent = post.title;
+            modalContent.innerHTML = post.content;
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
 
         // Mobile menu logic
         const menuToggle = document.getElementById('menu-toggle');
